@@ -178,12 +178,12 @@ class AnswerGenerator:
 
 # 便捷函数
 def get_generator(
-    model: str = "gpt-4o-mini",
+    model: str = "glm-4-flash",
     api_key: Optional[str] = None,
     temperature: float = 0.7
 ) -> AnswerGenerator:
     """获取生成器实例"""
-    return AnswerGenerator(model, api_key, temperature)
+    return AnswerGenerator(model=model, api_key=api_key, temperature=temperature)
 
 
 # 测试代码

@@ -76,11 +76,12 @@ class RAGPipeline:
         初始化生成器
 
         Args:
-            api_key: OpenAI API密钥
+            api_key: API密钥（GLM或OpenAI）
         """
         self.generator = get_generator(
             model=self.generator_model,
-            api_key=api_key
+            api_key=api_key,
+            temperature=0.7
         )
 
     def query(
