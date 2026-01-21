@@ -7,6 +7,7 @@
 import os
 from typing import List, Dict, Any, Optional
 from openai import OpenAI
+from rag.prompts import BUFFETT_MUNGER_PROMPT
 
 
 class AnswerGenerator:
@@ -79,30 +80,21 @@ class AnswerGenerator:
         Returns:
             生成的答案
         """
-        # 默认系统提示词
+        # 默认系统提示词（使用巴菲特芒格风格）
         if system_prompt is None:
-            system_prompt = """你是沃伦·巴菲特和查理·芒格的AI助手。你的任务是根据提供的文档回答问题。
-
-请遵循以下原则：
-1. 只使用提供的文档中的信息
-2. 如果文档中没有相关信息，诚实地说"根据现有文档，我无法回答这个问题"
-3. 引用具体的来源（年份、文档名称）
-4. 保持巴菲特和芒格的说话风格：简洁、幽默、用比喻
-5. 如果可能，用他们常说过的原话"""
+            system_prompt = BUFFETT_MUNGER_PROMPT
 
         # 构建消息
         messages = [
             {"role": "system", "content": system_prompt},
             {
                 "role": "user",
-                "content": f"""根据以下文档回答问题：
+                "content": f"""问题：{question}
 
-问题：{question}
-
-相关文档：
+相关资料：
 {context}
 
-请基于上述文档内容回答问题。"""
+请基于这些资料，用巴菲特或芒格的口吻回答。要自然、口语化，像在聊天一样。"""
             }
         ]
 
@@ -138,23 +130,21 @@ class AnswerGenerator:
         Yields:
             生成的文本片段
         """
-        # 默认系统提示词
+        # 默认系统提示词（使用巴菲特芒格风格）
         if system_prompt is None:
-            system_prompt = """你是沃伦·巴菲特和查理·芒格的AI助手。"""
+            system_prompt = BUFFETT_MUNGER_PROMPT
 
         # 构建消息
         messages = [
             {"role": "system", "content": system_prompt},
             {
                 "role": "user",
-                "content": f"""根据以下文档回答问题：
+                "content": f"""问题：{question}
 
-问题：{question}
-
-相关文档：
+相关资料：
 {context}
 
-请基于上述文档内容回答问题。"""
+请基于这些资料，用巴菲特或芒格的口吻回答。要自然、口语化，像在聊天一样。"""
             }
         ]
 
