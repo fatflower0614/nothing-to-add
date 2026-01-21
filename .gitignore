@@ -39,11 +39,10 @@ venv.bak/
 .env
 .env.local
 
-# Data files (too large for Git)
-data/letters/
-data/books/
-data/chroma/
-data/processed/
+# Data files - keep processed/cleaned data, ignore raw files
+data/letters/wesco_letters/  # Raw PDF files
+data/books/  # Raw book files (EPUB/PDF/MOBI)
+data/chroma/  # Vector database (can be regenerated)
 *.pdf
 *.epub
 *.mobi
