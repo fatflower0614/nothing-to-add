@@ -2,183 +2,119 @@
 
 ```
 nothing-to-add/
-├── data/                          # 数据目录
-│   ├── books/                    # 原始书籍（EPUB/PDF/MOBI）
-│   ├── letters/                  # 原始股东信
-│   │   ├── shareholder_letters/   # 巴菲特致股东信（1965-2024）
-│   │   └── wesco_letters/         # 威斯科金融信（PDF）
-│   ├── processed/                # 提取的文字（Markdown）
-│   │   ├── core/                 # 核心书籍
-│   │   ├── letters/              # 威斯科信
-│   │   └── recommended/          # 推荐书籍
-│   ├── cleaned/                  # 清洗后的数据
-│   │   ├── core/
-│   │   ├── letters/
-│   │   └── recommended/
-│   └── chroma/                   # 向量数据库
+├── README.md                  # 项目说明
+├── LICENSE                    # 开源协议
+├── PROJECT_STRUCTURE.md       # 本文件
+├── requirements.txt           # Python依赖
+├── .env                       # 环境变量（不提交）
+├── .env.example               # 环境变量模板
 │
-├── rag/                          # RAG系统核心模块
+├── api/                       # FastAPI后端（新增）
+│   ├── main.py               # API主文件
+│   ├── routes/               # 路由定义
+│   │   ├── chat.py          # 聊天API
+│   │   └── search.py        # 搜索API
+│   └── models/               # 数据模型
+│
+├── rag/                       # RAG系统核心
 │   ├── __init__.py
-│   ├── embeddings.py             # 文字转向量
-│   ├── vector_store.py           # 向量数据库管理
-│   ├── retriever.py              # 检索器
-│   ├── generator.py              # AI生成答案（支持GLM）
-│   ├── pipeline.py               # 完整RAG流程
-│   └── prompts.py                # 系统提示词
+│   ├── embeddings.py         # 向量化
+│   ├── vector_store.py       # 向量数据库
+│   ├── retriever.py          # 检索器
+│   ├── generator.py          # AI生成
+│   ├── pipeline.py           # RAG流程
+│   ├── conversation.py       # 多轮对话
+│   ├── search.py             # 联网搜索
+│   └── prompts.py            # 提示词
 │
-├── scripts/                      # 数据处理脚本
-│   ├── extract_epub.py           # EPUB提取
-│   ├── extract_pdf.py            # PDF提取
-│   ├── extract_mobi.py           # MOBI提取
-│   ├── process_all_data.py       # 批量处理
-│   ├── clean_data.py             # 数据清洗
-│   └── build_rag.py              # 构建向量数据库
+├── frontend/                  # React前端（新增）
+│   ├── package.json
+│   ├── src/
+│   │   ├── App.jsx
+│   │   ├── components/       # React组件
+│   │   │   ├── ChatBox.jsx  # 聊天框
+│   │   │   ├── MessageList.jsx # 消息列表
+│   │   │   └── InputArea.jsx # 输入区
+│   │   └── api/              # API调用
+│   │       └── client.js
+│   └── public/
 │
-├── tests/                        # 测试脚本
-│   ├── test_rag.py               # RAG系统测试
-│   ├── test_new_style.py         # 新风格测试
-│   ├── test_career_advice.py     # 职业建议测试
-│   ├── test_moat.py              # 护城河问题测试
-│   └── test_moat_cn.py           # 护城河问题测试（中文）
+├── tests/                     # 测试文件
+│   ├── README.md
+│   ├── basic/                # 基础测试
+│   │   ├── test_rag.py
+│   │   └── test_new_style.py
+│   ├── conversation/         # 对话测试
+│   │   ├── test_conversation.py
+│   │   └── test_polymarket_conversation.py
+│   └── search/               # 搜索测试
+│       ├── test_web_search.py
+│       └── test_search_demo.py
 │
-├── docs/                         # 项目文档
-│   ├── planning/                 # 开发计划文档
-│   │   ├── 00-项目总览README.md
-│   │   ├── 01-产品需求文档RPD.md
-│   │   ├── 02-技术术语解释.md
-│   │   ├── 03-技术选型文档.md
-│   │   └── 04-完整开发计划.md
-│   └── reports/                  # 开发报告
-│       ├── 数据处理完成报告.md
-│       ├── 数据来源分析报告.md
-│       └── 数据清洗完成报告.md
+├── scripts/                   # 数据处理脚本
+│   ├── build_rag.py          # 构建向量库
+│   ├── clean_data.py         # 清洗数据
+│   ├── extract_epub.py       # EPUB提取
+│   ├── extract_pdf.py        # PDF提取
+│   ├── process_all_data.py   # 批量处理
+│   └── download_wesco_letters.ps1
 │
-├── api/                          # API接口（未来）
-│   └── (待开发)
+├── data/                      # 数据目录
+│   ├── books/                # 原始书籍
+│   ├── letters/              # 股东信
+│   ├── processed/            # 提取的文本
+│   ├── cleaned/              # 清洗后的文本
+│   └── chroma/               # 向量数据库（自动生成）
 │
-├── .env                          # 环境变量配置
-├── .env.example                  # 环境变量模板
-├── .gitignore                    # Git忽略文件
-├── LICENSE                       # MIT许可证
-├── requirements.txt              # Python依赖
-├── README.md                     # 项目说明
-└── PROJECT_STRUCTURE.md          # 本文件
+└── docs/                      # 项目文档
+    ├── planning/             # 开发计划
+    │   ├── 00-项目总览README.md
+    │   ├── 01-产品需求文档RPD.md
+    │   ├── 02-技术术语解释.md
+    │   ├── 03-技术选型文档.md
+    │   └── 04-完整开发计划.md
+    └── reports/              # 开发报告
+        ├── 数据处理完成报告.md
+        ├── 数据来源分析报告.md
+        └── 数据清洗完成报告.md
 ```
 
-## 数据文件说明
+## 目录说明
 
-### processed/ vs cleaned/
+### api/ - FastAPI后端
+- 后端API服务
+- 处理前端请求
+- 调用RAG系统
 
-**processed/** - 原始提取
-- 从PDF/EPUB直接提取的文字
-- 基本格式处理
-- 包含元数据头部
+### rag/ - RAG系统核心
+- 所有核心功能模块
+- 向量化、检索、生成
+- 多轮对话、联网搜索
 
-**cleaned/** - 深度清洗
-- 字符规范化
-- 删除无用内容
-- 格式统一
-- 元数据完整
+### frontend/ - React前端
+- 用户界面
+- 聊天交互
+- 响应式设计
 
-### 向量数据库
+### tests/ - 测试文件
+- 按功能分类
+- 基础、对话、搜索测试
 
-**chroma/** - ChromaDB数据库
-- 自动生成
-- 2089个文档块
-- 384维向量
-- 可重新构建
+### scripts/ - 数据处理
+- 数据提取脚本
+- 数据清洗脚本
+- 向量库构建
 
-## 核心模块说明
+### data/ - 数据存储
+- 原始数据
+- 处理后数据
+- 向量数据库
 
-### rag/ 目录
+## 快速导航
 
-**embeddings.py**
-- 文字转向量
-- 使用sentence-transformers
-- 模型：all-MiniLM-L6-v2
-
-**vector_store.py**
-- ChromaDB管理
-- 存储和检索向量
-- 余弦相似度搜索
-
-**retriever.py**
-- 文档检索
-- 返回最相关文档
-- 格式化上下文
-
-**generator.py**
-- AI生成答案
-- 支持GLM和OpenAI
-- 巴菲特芒格风格
-
-**pipeline.py**
-- 整合所有模块
-- 提供简单接口
-- 支持流式输出
-
-**prompts.py**
-- 系统提示词
-- 巴菲特芒格风格
-- 可扩展
-
-## 脚本说明
-
-### 数据处理流程
-
-```
-原始文件（EPUB/PDF）
-    ↓
-extract_epub.py / extract_pdf.py
-    ↓
-processed/（原始提取）
-    ↓
-clean_data.py
-    ↓
-cleaned/（深度清洗）
-    ↓
-build_rag.py
-    ↓
-chroma/（向量数据库）
-```
-
-## 测试文件
-
-**tests/** 目录包含：
-- test_rag.py - 基础测试
-- test_new_style.py - 新风格测试
-- test_career_advice.py - 职业建议
-- test_moat.py - 护城河问题
-- test_moat_cn.py - 护城河问题（中文）
-
-运行测试：
-```bash
-cd "C:\Users\steve\nothing to add project"
-python tests/test_new_style.py
-```
-
-## 环境变量
-
-**.env** 文件配置：
-```
-GLM_API_KEY=your-key
-GENERATOR_MODEL=glm-4-flash
-VECTOR_DB_PATH=./data/chroma
-```
-
-## 下一步开发
-
-### 短期（1-2周）
-- [ ] 多轮对话功能
-- [ ] 记忆功能
-- [ ] 更精准的检索
-
-### 中期（1个月）
-- [ ] Web界面
-- [ ] 用户系统
-- [ ] 对话历史
-
-### 长期（3个月+）
-- [ ] 语音输出
-- [ ] 个性化推荐
-- [ ] 知识图谱
+**想了解项目？** → README.md
+**想修改RAG？** → rag/
+**想修改界面？** → frontend/
+**想运行测试？** → tests/
+**想处理数据？** → scripts/
+**想了解计划？** → docs/planning/
