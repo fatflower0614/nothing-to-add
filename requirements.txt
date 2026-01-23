@@ -18,5 +18,9 @@ openai>=1.6.0
 fastapi>=0.109.0
 uvicorn>=0.27.0
 
+# 联网搜索（NEW!）
+duckduckgo-search>=4.0.0
+requests>=2.31.0
+
 # 工具
 python-dotenv>=1.0.0
