@@ -1,0 +1,27 @@
+{
+  "timestamp": "2025-01-24",
+  "data_sources": {
+    "cleaned_core": 7,
+    "cleaned_letters": 13,
+    "cleaned_recommended": 8,
+    "shareholder_letters": 61,
+    "books": 8
+  },
+  "rag_sources_before": 9,
+  "missing_files_added": {
+    "shareholder_letters": 61,
+    "other_cleaned": 24,
+    "total_documents_added": 9956
+  },
+  "case_library": {
+    "original": 6,
+    "new": 14,
+    "total": 20
+  },
+  "summary": {
+    "total_data_files": 97,
+    "rag_documents": 14173,
+    "total_cases": 20,
+    "total_questions": 4557
+  }
+}

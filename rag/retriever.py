@@ -43,8 +43,11 @@ class DocumentRetriever:
         Returns:
             检索结果列表
         """
+        # 查询扩展：如果检测到特定话题，扩展查询词
+        expanded_query = self._expand_query(query)
+
         # 转换查询为向量
-        query_embedding = self.embedding_model.embed_text(query)
+        query_embedding = self.embedding_model.embed_text(expanded_query)
 
         # 查询
         n_results = kwargs.get('n_results', self.top_k)
@@ -66,6 +69,47 @@ class DocumentRetriever:
                 })
 
         return formatted_results
+
+    def _expand_query(self, query: str) -> str:
+        """
+        查询扩展：当检测到特定话题时，添加相关关键词
+        这样可以提高检索准确度
+        """
+        # 定义关键词映射
+        keyword_mappings = {
+            # 预测市场相关
+            'polymarket': ['预测市场', '赌博', '博彩', '二元期权', '投注'],
+            '预测市场': ['赌博', '博彩', '赌场', '投机'],
+            '二元期权': ['赌博', '博彩', '投机'],
+            '事件交易': ['赌博', '博彩', '投注'],
+
+            # 衍生品相关
+            '衍生品': ['赌博', '投机', '期货', '期权'],
+            '期权': ['投机', '赌博'],
+            '期货': ['投机', '杠杆'],
+
+            # 投机相关
+            '投机': ['赌博', '短期交易'],
+        }
+
+        # 检查是否需要扩展
+        query_lower = query.lower()
+        added_keywords = []
+
+        for key, expansions in keyword_mappings.items():
+            if key in query_lower:
+                # 添加扩展关键词
+                added_keywords.extend(expansions)
+
+        # 如果有添加的关键词，构建新查询
+        if added_keywords:
+            # 去重
+            unique_keywords = list(set(added_keywords))
+            # 添加到原查询
+            expanded_query = f"{query} {' '.join(unique_keywords)}"
+            return expanded_query
+
+        return query
 
     def retrieve_with_scores(
         self,
